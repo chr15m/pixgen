@@ -1,0 +1,4 @@
+.*.swp
+.context
+.nrepl-port
+.aider*

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Viewer</title>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #e0e0e0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/scittle@latest/dist/scittle.min.js" type="application/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/scittle@latest/dist/scittle.promesa.min.js" type="application/javascript"></script>
+    <script>scittle.core.disable_auto_eval()</script>
+    <script type="module">
+        import * as THREE from "three";
+        window.THREE = THREE;
+        scittle.core.eval_script_tags();
+    </script>
+    <script type="application/x-scittle" src="main.cljs"></script>
+</body>
+</html>
