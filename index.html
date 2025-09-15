@@ -30,8 +30,10 @@
     <script type="module">
         import * as THREE from "three";
         import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+        import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
         window.THREE = THREE;
         window.OrbitControls = OrbitControls;
+        window.GLTFLoader = GLTFLoader;
         scittle.core.eval_script_tags();
     </script>
     <script type="application/x-scittle" src="main.cljs"></script>

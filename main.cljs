@@ -1,11 +1,19 @@
 (ns main
   (:require ["THREE" :as THREE]
-            ["OrbitControls" :as OrbitControls]))
+            ["OrbitControls" :as OrbitControls]
+            ["GLTFLoader" :as GLTFLoader]))
 
 (def BASE_FOV 50)
 (def pixel-size 4)
 
 (defonce state (atom {}))
+
+(defn apply-shadows [gltf]
+  (-> gltf .-scene (.traverse (fn [node]
+                                (when (.-isMesh node)
+                                  (aset node "castShadow" true)
+                                  (aset node "receiveShadow" true)))))
+  gltf)
 
 (defn on-window-resize []
   (let [{:keys [camera renderer]} @state]
@@ -23,10 +31,8 @@
 
 (defn animate []
   (js/requestAnimationFrame animate)
-  (let [{:keys [cube renderer scene camera controls]} @state]
-    (when (and cube renderer scene camera controls)
-      (set! (.-rotation.x cube) (+ (.-rotation.x cube) 0.01))
-      (set! (.-rotation.y cube) (+ (.-rotation.y cube) 0.01))
+  (let [{:keys [renderer scene camera controls]} @state]
+    (when (and renderer scene camera controls)
       (.update controls)
       (.render renderer scene camera))))
 
@@ -57,14 +63,6 @@
         _ (.add scene (doto (THREE/DirectionalLight. 0xffffff 0.5)
                         (-> .-position (.set -20 20 20))))
 
-        geometry (THREE/BoxGeometry. 1 1 1)
-        material (THREE/MeshStandardMaterial. #js {:color 0x00ff00})
-        cube (doto (THREE/Mesh. geometry material)
-               (-> .-position (.set 0 0.5 0))
-               (aset "castShadow" true)
-               (aset "receiveShadow" true))
-        _ (.add scene cube)
-
         floor (doto (THREE/Mesh. (THREE/PlaneGeometry. 20 20)
                                  (THREE/ShadowMaterial. #js {:opacity 0.3}))
                 (-> .-rotation (aset "x" (* -0.5 js/Math.PI)))
@@ -73,12 +71,33 @@
 
         controls (OrbitControls. camera (.-domElement renderer))
         _ (-> controls .-target (.set 0 0.5 0))
-        _ (.update controls)]
+        _ (.update controls)
+
+        loader (GLTFLoader.)
+        _ (.load loader
+                 "pred1/replicate-prediction-xfexaea6f5rj00cs9j5vqpzsx0-0.glb"
+                 (fn [gltf]
+                   (let [model (apply-shadows gltf)
+                         scene-obj (.-scene model)
+                         box (doto (THREE/Box3.) (.setFromObject scene-obj))
+                         center (.getCenter box (THREE/Vector3.))]
+                     ; Position model to be centered and sit on the ground plane
+                     (-> scene-obj .-position (.set (- (.-x center))
+                                                    (- (.-y (.-min box)))
+                                                    (- (.-z center))))
+                     (.add scene scene-obj)
+                     (swap! state assoc :model scene-obj)
+
+                     ; Update controls to look at the model's new center
+                     (.updateWorldMatrix scene-obj true)
+                     (let [new-box (doto (THREE/Box3.) (.setFromObject scene-obj))
+                           new-center (.getCenter new-box (THREE/Vector3.))]
+                       (-> controls .-target (.copy new-center))
+                       (.update controls)))))]
 
     (reset! state {:scene scene
                    :camera camera
                    :renderer renderer
-                   :cube cube
                    :controls controls})
 
     (print "state:" @state)
