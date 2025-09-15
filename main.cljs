@@ -14,8 +14,9 @@
                                   (aset node "castShadow" true)
                                   (aset node "receiveShadow" true)
                                   (when (.-material node)
-                                    (set! (.-metalness (.-material node)) 0.1)
-                                    (set! (.-roughness (.-material node)) 0.8))))))
+                                    ;(set! (.-color (.-material node)) (THREE/Color. 0xffffff))
+                                    (set! (.-metalness (.-material node)) 0.01)
+                                    (set! (.-roughness (.-material node)) 0.4))))))
   gltf)
 
 (defn on-window-resize []
@@ -42,7 +43,7 @@
 (defn init []
   (js/console.log "init...")
   (let [scene (THREE/Scene.)
-        _ (set! (.-background scene) (THREE/Color. 0xf0f0f0))
+        _ (set! (.-background scene) (THREE/Color. 0x303030))
         ; _ (aset scene "fog" (THREE/FogExp2. 0xf0f0f0 0.08))
 
         camera (THREE/PerspectiveCamera. 70 (/ (.-innerWidth js/window) (.-innerHeight js/window)) 0.1 100)
@@ -56,9 +57,9 @@
         _ (.setSize renderer (.-innerWidth js/window) (.-innerHeight js/window))
         _ (.appendChild (.-body js/document) (.-domElement renderer))
 
-        _ (.add scene (THREE/AmbientLight. 0xffffff 2.0))
+        _ (.add scene (THREE/AmbientLight. 0xffffff 3.0))
 
-        _ (.add scene (doto (THREE/SpotLight. 0xffffff 1.0)
+        _ (.add scene (doto (THREE/SpotLight. 0xffffff 3.0)
                         (-> .-position (.set 10 20 10))
                         (aset "castShadow" true)
                         (-> .-shadow .-mapSize (.set 1024 1024))))
