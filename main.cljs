@@ -12,7 +12,10 @@
   (-> gltf .-scene (.traverse (fn [node]
                                 (when (.-isMesh node)
                                   (aset node "castShadow" true)
-                                  (aset node "receiveShadow" true)))))
+                                  (aset node "receiveShadow" true)
+                                  (when (.-material node)
+                                    (set! (.-metalness (.-material node)) 0.1)
+                                    (set! (.-roughness (.-material node)) 0.8))))))
   gltf)
 
 (defn on-window-resize []
@@ -40,7 +43,7 @@
   (js/console.log "init...")
   (let [scene (THREE/Scene.)
         _ (set! (.-background scene) (THREE/Color. 0xf0f0f0))
-        _ (aset scene "fog" (THREE/FogExp2. 0xf0f0f0 0.08))
+        ; _ (aset scene "fog" (THREE/FogExp2. 0xf0f0f0 0.08))
 
         camera (THREE/PerspectiveCamera. 70 (/ (.-innerWidth js/window) (.-innerHeight js/window)) 0.1 100)
         _ (-> camera .-position (.set 5 5 5))
@@ -48,12 +51,12 @@
         renderer (THREE/WebGLRenderer. #js {:antialias false})
         _ (set! (.. renderer -shadowMap -enabled) true)
         _ (set! (.. renderer -shadowMap -type) THREE/PCFShadowMap)
-        _ (set! (.-toneMapping renderer) THREE/ACESFilmicToneMapping)
-        _ (set! (.-toneMappingExposure renderer) 1.25)
+        _ (set! (.-toneMapping renderer) THREE/NoToneMapping)
+        ; _ (set! (.-toneMappingExposure renderer) 1.25)
         _ (.setSize renderer (.-innerWidth js/window) (.-innerHeight js/window))
         _ (.appendChild (.-body js/document) (.-domElement renderer))
 
-        _ (.add scene (THREE/AmbientLight. 0xffffff 1.0))
+        _ (.add scene (THREE/AmbientLight. 0xffffff 2.0))
 
         _ (.add scene (doto (THREE/SpotLight. 0xffffff 1.0)
                         (-> .-position (.set 10 20 10))
@@ -68,6 +71,14 @@
                 (-> .-rotation (aset "x" (* -0.5 js/Math.PI)))
                 (aset "receiveShadow" true))
         _ (.add scene floor)
+
+        _ (let [cube-geometry (THREE/BoxGeometry. 1 1 1)
+                cube-material (THREE/MeshStandardMaterial. #js {:color 0xff0000})
+                cube (doto (THREE/Mesh. cube-geometry cube-material)
+                       (-> .-position (.set 3 0.5 0))
+                       (aset "castShadow" true)
+                       (aset "receiveShadow" true))]
+            (.add scene cube))
 
         controls (OrbitControls. camera (.-domElement renderer))
         _ (-> controls .-target (.set 0 0.5 0))
