@@ -35,8 +35,12 @@
 
 (defn animate []
   (js/requestAnimationFrame animate)
-  (let [{:keys [renderer scene camera controls]} @state]
+  (let [{:keys [renderer scene camera controls model model-base-y]} @state]
     (when (and renderer scene camera controls)
+      (when (and model model-base-y)
+        (let [time (* (.getTime (js/Date.)) 0.002)]
+          (set! (-> model .-position .-y)
+                (+ model-base-y (* (js/Math.sin time) 0.03)))))
       (.update controls)
       (.render renderer scene camera))))
 
@@ -73,13 +77,14 @@
                 (aset "receiveShadow" true))
         _ (.add scene floor)
 
-        _ (let [cube-geometry (THREE/BoxGeometry. 1 1 1)
-                cube-material (THREE/MeshStandardMaterial. #js {:color 0xff0000})
-                cube (doto (THREE/Mesh. cube-geometry cube-material)
-                       (-> .-position (.set 3 0.5 0))
-                       (aset "castShadow" true)
-                       (aset "receiveShadow" true))]
-            (.add scene cube))
+        #_#_ _
+        (let [cube-geometry (THREE/BoxGeometry. 1 1 1)
+              cube-material (THREE/MeshStandardMaterial. #js {:color 0xff0000})
+              cube (doto (THREE/Mesh. cube-geometry cube-material)
+                     (-> .-position (.set 3 0.5 0))
+                     (aset "castShadow" true)
+                     (aset "receiveShadow" true))]
+          (.add scene cube))
 
         controls (OrbitControls. camera (.-domElement renderer))
         _ (-> controls .-target (.set 0 0.5 0))
@@ -99,11 +104,12 @@
                          box (doto (THREE/Box3.) (.setFromObject scene-obj))
                          center (.getCenter box (THREE/Vector3.))]
                      ; Position model to be centered and sit on the ground plane
-                     (-> scene-obj .-position (.set (- (.-x center))
-                                                    (- (- (.-y (.-min box)) 1))
-                                                    (- (.-z center))))
-                     (.add scene scene-obj)
-                     (swap! state assoc :model scene-obj)
+                     (let [base-y (- (- (.-y (.-min box)) 1))]
+                       (-> scene-obj .-position (.set (- (.-x center))
+                                                      base-y
+                                                      (- (.-z center))))
+                       (.add scene scene-obj)
+                       (swap! state assoc :model scene-obj :model-base-y base-y))
 
                      ; Update controls to look at the model's new center
                      (.updateWorldMatrix scene-obj true)
