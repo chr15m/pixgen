@@ -19,14 +19,15 @@
    "flower_redA.glb" "flower_purpleB.glb" "flower_yellowC.glb"])
 
 (defn apply-shadows [gltf]
-  (-> gltf .-scene (.traverse (fn [node]
-                                (when (.-isMesh node)
-                                  (aset node "castShadow" true)
-                                  (aset node "receiveShadow" true)
-                                  (when (.-material node)
-                                    ;(set! (.-color (.-material node)) (THREE/Color. 0xffffff))
-                                    (set! (.-metalness (.-material node)) 0.01)
-                                    (set! (.-roughness (.-material node)) 0.4))))))
+  (-> gltf .-scene
+      (.traverse (fn [node]
+                   (when (.-isMesh node)
+                     (aset node "castShadow" true)
+                     (aset node "receiveShadow" true)
+                     (when (.-material node)
+                       ;(set! (.-color (.-material node)) (THREE/Color. 0xffffff))
+                       (set! (.-metalness (.-material node)) 0.01)
+                       (set! (.-roughness (.-material node)) 0.4))))))
   gltf)
 
 (defn load-and-place-scenery [scene loader model-name]
@@ -54,13 +55,19 @@
       (let [aspect (/ (.-innerWidth js/window) (.-innerHeight js/window))]
         (if (>= aspect 1)
           (set! (.-fov camera) BASE_FOV)
-          (let [fov-rad (* 2 (js/Math.atan (/ (js/Math.tan (/ (* BASE_FOV js/Math.PI) 360)) aspect)))]
+          (let [fov-rad (* 2 (js/Math.atan
+                               (/ (js/Math.tan (/ (* BASE_FOV js/Math.PI) 360))
+                                  aspect)))]
             (set! (.-fov camera) (/ (* fov-rad 180) js/Math.PI))))
         (set! (.-aspect camera) aspect)
         (.updateProjectionMatrix camera)
-        (.setSize renderer (/ (.-innerWidth js/window) pixel-size) (/ (.-innerHeight js/window) pixel-size))
-        (set! (.. renderer -domElement -style -width) (str (.-innerWidth js/window) "px"))
-        (set! (.. renderer -domElement -style -height) (str (.-innerHeight js/window) "px"))))))
+        (.setSize renderer
+                  (/ (.-innerWidth js/window) pixel-size)
+                  (/ (.-innerHeight js/window) pixel-size))
+        (set! (.. renderer -domElement -style -width)
+              (str (.-innerWidth js/window) "px"))
+        (set! (.. renderer -domElement -style -height)
+              (str (.-innerHeight js/window) "px"))))))
 
 (defn animate []
   (js/requestAnimationFrame animate)
@@ -79,7 +86,10 @@
         _ (set! (.-background scene) (THREE/Color. 0x303030))
         ; _ (aset scene "fog" (THREE/FogExp2. 0xf0f0f0 0.08))
 
-        camera (THREE/PerspectiveCamera. 70 (/ (.-innerWidth js/window) (.-innerHeight js/window)) 0.1 100)
+        camera (THREE/PerspectiveCamera.
+                 70 (/ (.-innerWidth js/window)
+                       (.-innerHeight js/window))
+                 0.1 100)
         _ (-> camera .-position (.set 5 5 5))
 
         renderer (THREE/WebGLRenderer. #js {:antialias false})
@@ -129,7 +139,8 @@
                          size (.getSize temp-box (THREE/Vector3.))
                          max-dim (js/Math.max (.-x size) (.-y size) (.-z size))
                          scale-factor (if (> max-dim 0) (/ 5 max-dim) 1)
-                         _ (-> scene-obj .-scale (.set scale-factor scale-factor scale-factor))
+                         _ (-> scene-obj .-scale
+                               (.set scale-factor scale-factor scale-factor))
                          box (doto (THREE/Box3.) (.setFromObject scene-obj))
                          center (.getCenter box (THREE/Vector3.))]
                      ; Position model to be centered and sit on the ground plane
@@ -141,7 +152,8 @@
                        (swap! state assoc :model scene-obj :model-base-y base-y))
 
                      (dotimes [_ 15]
-                       (load-and-place-scenery scene loader (rand-nth scenery-models)))
+                       (load-and-place-scenery scene loader
+                                               (rand-nth scenery-models)))
 
                      ; Update controls to look at the model's new center
                      (.updateWorldMatrix scene-obj true)
@@ -163,4 +175,3 @@
     (animate)))
 
 (init)
-
