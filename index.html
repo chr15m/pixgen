@@ -6,7 +6,13 @@
     <title>Model Viewer</title>
     <style>
         body { margin: 0; overflow: hidden; background-color: #e0e0e0; }
-        canvas { display: block; }
+        canvas {
+            display: block;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -webkit-crisp-edges;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
     </style>
 </head>
 <body>

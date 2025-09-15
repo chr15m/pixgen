@@ -3,6 +3,7 @@
             ["OrbitControls" :as OrbitControls]))
 
 (def BASE_FOV 50)
+(def pixel-size 4)
 
 (defonce state (atom {}))
 
@@ -16,7 +17,9 @@
             (set! (.-fov camera) (/ (* fov-rad 180) js/Math.PI))))
         (set! (.-aspect camera) aspect)
         (.updateProjectionMatrix camera)
-        (.setSize renderer (.-innerWidth js/window) (.-innerHeight js/window))))))
+        (.setSize renderer (/ (.-innerWidth js/window) pixel-size) (/ (.-innerHeight js/window) pixel-size))
+        (set! (.. renderer -domElement -style -width) (str (.-innerWidth js/window) "px"))
+        (set! (.. renderer -domElement -style -height) (str (.-innerHeight js/window) "px"))))))
 
 (defn animate []
   (js/requestAnimationFrame animate)
@@ -30,21 +33,46 @@
 (defn init []
   (js/console.log "init...")
   (let [scene (THREE/Scene.)
-        _ (set! (.-background scene) (THREE/Color. 0xe0e0e0))
+        _ (set! (.-background scene) (THREE/Color. 0xf0f0f0))
+        _ (aset scene "fog" (THREE/FogExp2. 0xf0f0f0 0.08))
 
-        camera (THREE/PerspectiveCamera. BASE_FOV (/ (.-innerWidth js/window) (.-innerHeight js/window)) 0.1 1000)
-        _ (-> camera .-position (.set 0 0 5))
+        camera (THREE/PerspectiveCamera. 70 (/ (.-innerWidth js/window) (.-innerHeight js/window)) 0.1 100)
+        _ (-> camera .-position (.set 5 5 5))
 
-        renderer (THREE/WebGLRenderer. #js {:antialias true})
+        renderer (THREE/WebGLRenderer. #js {:antialias false})
+        _ (set! (.. renderer -shadowMap -enabled) true)
+        _ (set! (.. renderer -shadowMap -type) THREE/PCFShadowMap)
+        _ (set! (.-toneMapping renderer) THREE/ACESFilmicToneMapping)
+        _ (set! (.-toneMappingExposure renderer) 1.25)
         _ (.setSize renderer (.-innerWidth js/window) (.-innerHeight js/window))
         _ (.appendChild (.-body js/document) (.-domElement renderer))
 
+        _ (.add scene (THREE/AmbientLight. 0xffffff 1.0))
+
+        _ (.add scene (doto (THREE/SpotLight. 0xffffff 1.0)
+                        (-> .-position (.set 10 20 10))
+                        (aset "castShadow" true)
+                        (-> .-shadow .-mapSize (.set 1024 1024))))
+
+        _ (.add scene (doto (THREE/DirectionalLight. 0xffffff 0.5)
+                        (-> .-position (.set -20 20 20))))
+
         geometry (THREE/BoxGeometry. 1 1 1)
-        material (THREE/MeshBasicMaterial. #js {:color 0x00ff00})
-        cube (THREE/Mesh. geometry material)
+        material (THREE/MeshStandardMaterial. #js {:color 0x00ff00})
+        cube (doto (THREE/Mesh. geometry material)
+               (-> .-position (.set 0 1 0))
+               (aset "castShadow" true)
+               (aset "receiveShadow" true))
         _ (.add scene cube)
 
+        floor (doto (THREE/Mesh. (THREE/PlaneGeometry. 20 20)
+                                 (THREE/ShadowMaterial. #js {:opacity 0.3}))
+                (-> .-rotation .-x (* -0.5 js/Math.PI))
+                (aset "receiveShadow" true))
+        _ (.add scene floor)
+
         controls (OrbitControls. camera (.-domElement renderer))
+        _ (-> controls .-target (.set 0 1 0))
         _ (.update controls)]
 
     (reset! state {:scene scene
