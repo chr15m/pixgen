@@ -71,9 +71,10 @@
 
 (defn animate []
   (js/requestAnimationFrame animate)
-  (let [{:keys [renderer scene camera controls model model-base-y]} @state]
+  (let [{:keys [renderer scene camera controls model model-base-y static]}
+        @state]
     (when (and renderer scene camera controls)
-      (when (and model model-base-y)
+      (when (and model model-base-y (not static))
         (let [time (* (.getTime (js/Date.)) 0.002)]
           (set! (-> model .-position .-y)
                 (+ model-base-y (* (js/Math.sin time) 0.03)))))
@@ -130,8 +131,34 @@
         _ (.update controls)
 
         loader (GLTFLoader.)
-        _ (.load loader
-                 "pred1/replicate-prediction-xfexaea6f5rj00cs9j5vqpzsx0-0.glb"
+        _
+        (let [[model-file static]
+              ; light spaceship
+              #_ ["models/replicate-prediction-xfexaea6f5rj00cs9j5vqpzsx0-0.glb"
+                  false]
+              ; dark spaceship
+              #_ ["models/replicate-prediction-b43jyjw0k9rj40cs9c7rq3nt80-0.glb"
+                  false]
+              ; cool spaceship
+              ["models/replicate-prediction-j9xw2dxvcxrj00cs9cj9m5pt38-0.glb"
+               false]
+              ; tokyo building
+              #_ ["models/replicate-prediction-py91pvzmb5rj20cs9eg8tyejv8-0.glb"
+                  true]
+              ; tokyo building
+              #_ ["models/replicate-prediction-qpftgart15rj60cs9ej8erp5wm-0.glb"
+                  true]
+              ; treehouse
+              #_ ["models/replicate-prediction-4pqha9va01rj40cs9f6bsjjcxr-0.glb"
+                  true]
+              ; ancient temple
+              #_ ["models/replicate-prediction-bfxzgnmm95rj00cs9eeab5v898-0.glb"
+                  true]
+              ; round temple
+              #_ ["models/replicate-prediction-vyt1pasxj5rj00cs9ehb977ajr-0.glb"
+                  true]]
+          (.load loader
+                 model-file
                  (fn [gltf]
                    (let [model (apply-shadows gltf)
                          scene-obj (.-scene model)
@@ -144,12 +171,16 @@
                          box (doto (THREE/Box3.) (.setFromObject scene-obj))
                          center (.getCenter box (THREE/Vector3.))]
                      ; Position model to be centered and sit on the ground plane
-                     (let [base-y (- (- (.-y (.-min box)) 1))]
+                     (let [base-y (- (- (.-y (.-min box))
+                                        (if static 0 1)))]
                        (-> scene-obj .-position (.set (- (.-x center))
                                                       base-y
                                                       (- (.-z center))))
                        (.add scene scene-obj)
-                       (swap! state assoc :model scene-obj :model-base-y base-y))
+                       (swap! state assoc
+                              :model scene-obj
+                              :static static
+                              :model-base-y base-y))
 
                      (dotimes [_ 15]
                        (load-and-place-scenery scene loader
@@ -160,7 +191,7 @@
                      (let [new-box (doto (THREE/Box3.) (.setFromObject scene-obj))
                            new-center (.getCenter new-box (THREE/Vector3.))]
                        (-> controls .-target (.copy new-center))
-                       (.update controls)))))]
+                       (.update controls))))))]
 
     (reset! state {:scene scene
                    :camera camera
