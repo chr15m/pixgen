@@ -5,15 +5,22 @@
 (js/console.log "THREE" THREE)
 (js/console.log "OrbitControls" OrbitControls)
 
+(def BASE_FOV 50)
+
 (defonce state (atom {:frame-count 0}))
 (defonce animated (atom false))
 
 (defn on-window-resize []
   (let [{:keys [camera renderer]} @state]
     (when (and camera renderer)
-      (set! (.-aspect camera) (/ (.-innerWidth js/window) (.-innerHeight js/window)))
-      (.updateProjectionMatrix camera)
-      (.setSize renderer (.-innerWidth js/window) (.-innerHeight js/window)))))
+      (let [aspect (/ (.-innerWidth js/window) (.-innerHeight js/window))]
+        (if (>= aspect 1)
+          (set! (.-fov camera) BASE_FOV)
+          (let [fov-rad (* 2 (js/Math.atan (/ (js/Math.tan (/ (* BASE_FOV js/Math.PI) 360)) aspect)))]
+            (set! (.-fov camera) (/ (* fov-rad 180) js/Math.PI))))
+        (set! (.-aspect camera) aspect)
+        (.updateProjectionMatrix camera)
+        (.setSize renderer (.-innerWidth js/window) (.-innerHeight js/window))))))
 
 (defn animate []
   (js/requestAnimationFrame animate)
@@ -38,7 +45,7 @@
         _ (set! (.-background scene) (THREE/Color. 0xe0e0e0))
         _ (js/console.log "scene" scene)
 
-        camera (THREE/PerspectiveCamera. 75 (/ (.-innerWidth js/window) (.-innerHeight js/window)) 0.1 1000)
+        camera (THREE/PerspectiveCamera. BASE_FOV (/ (.-innerWidth js/window) (.-innerHeight js/window)) 0.1 1000)
         _ (-> camera .-position (.set 0 0 5))
         _ (js/console.log "camera" camera)
 
@@ -69,6 +76,7 @@
     (print "state:" @state)
 
     (.addEventListener js/window "resize" on-window-resize false)
+    (on-window-resize)
 
     (animate)))
 
