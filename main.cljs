@@ -99,7 +99,7 @@
                          center (.getCenter box (THREE/Vector3.))]
                      ; Position model to be centered and sit on the ground plane
                      (-> scene-obj .-position (.set (- (.-x center))
-                                                    (- (.-y (.-min box)))
+                                                    (- (- (.-y (.-min box)) 1))
                                                     (- (.-z center))))
                      (.add scene scene-obj)
                      (swap! state assoc :model scene-obj)
