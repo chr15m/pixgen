@@ -60,19 +60,19 @@
         geometry (THREE/BoxGeometry. 1 1 1)
         material (THREE/MeshStandardMaterial. #js {:color 0x00ff00})
         cube (doto (THREE/Mesh. geometry material)
-               (-> .-position (.set 0 1 0))
+               (-> .-position (.set 0 0.5 0))
                (aset "castShadow" true)
                (aset "receiveShadow" true))
         _ (.add scene cube)
 
         floor (doto (THREE/Mesh. (THREE/PlaneGeometry. 20 20)
                                  (THREE/ShadowMaterial. #js {:opacity 0.3}))
-                (-> .-rotation .-x (* -0.5 js/Math.PI))
+                (-> .-rotation (aset "x" (* -0.5 js/Math.PI)))
                 (aset "receiveShadow" true))
         _ (.add scene floor)
 
         controls (OrbitControls. camera (.-domElement renderer))
-        _ (-> controls .-target (.set 0 1 0))
+        _ (-> controls .-target (.set 0 0.5 0))
         _ (.update controls)]
 
     (reset! state {:scene scene
