@@ -2,13 +2,9 @@
   (:require ["THREE" :as THREE]
             ["OrbitControls" :as OrbitControls]))
 
-(js/console.log "THREE" THREE)
-(js/console.log "OrbitControls" OrbitControls)
-
 (def BASE_FOV 50)
 
-(defonce state (atom {:frame-count 0}))
-(defonce animated (atom false))
+(defonce state (atom {}))
 
 (defn on-window-resize []
   (let [{:keys [camera renderer]} @state]
@@ -26,14 +22,6 @@
   (js/requestAnimationFrame animate)
   (let [{:keys [cube renderer scene camera controls]} @state]
     (when (and cube renderer scene camera controls)
-      (swap! state update :frame-count inc)
-      (when-not @animated
-        (js/console.log "first animation frame")
-        (reset! animated true))
-      (when (zero? (mod (:frame-count @state) 100))
-        (js/console.log "frame:" (:frame-count @state))
-        (js/console.log "camera position:" (.-position camera))
-        (js/console.log "cube position:" (.-position cube)))
       (set! (.-rotation.x cube) (+ (.-rotation.x cube) 0.01))
       (set! (.-rotation.y cube) (+ (.-rotation.y cube) 0.01))
       (.update controls)
@@ -43,35 +31,27 @@
   (js/console.log "init...")
   (let [scene (THREE/Scene.)
         _ (set! (.-background scene) (THREE/Color. 0xe0e0e0))
-        _ (js/console.log "scene" scene)
 
         camera (THREE/PerspectiveCamera. BASE_FOV (/ (.-innerWidth js/window) (.-innerHeight js/window)) 0.1 1000)
         _ (-> camera .-position (.set 0 0 5))
-        _ (js/console.log "camera" camera)
 
         renderer (THREE/WebGLRenderer. #js {:antialias true})
         _ (.setSize renderer (.-innerWidth js/window) (.-innerHeight js/window))
         _ (.appendChild (.-body js/document) (.-domElement renderer))
-        _ (js/console.log "renderer" renderer)
 
         geometry (THREE/BoxGeometry. 1 1 1)
-        _ (js/console.log "geometry" geometry)
         material (THREE/MeshBasicMaterial. #js {:color 0x00ff00})
-        _ (js/console.log "material" material)
         cube (THREE/Mesh. geometry material)
-        _ (js/console.log "cube" cube)
         _ (.add scene cube)
-        _ (js/console.log "scene after add" scene)
 
         controls (OrbitControls. camera (.-domElement renderer))
-        _ (.update controls)
-        _ (js/console.log "controls" controls)]
+        _ (.update controls)]
 
-    (swap! state merge {:scene scene
-                        :camera camera
-                        :renderer renderer
-                        :cube cube
-                        :controls controls})
+    (reset! state {:scene scene
+                   :camera camera
+                   :renderer renderer
+                   :cube cube
+                   :controls controls})
 
     (print "state:" @state)
 
