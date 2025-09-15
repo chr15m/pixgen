@@ -89,8 +89,12 @@
                  "pred1/replicate-prediction-xfexaea6f5rj00cs9j5vqpzsx0-0.glb"
                  (fn [gltf]
                    (let [model (apply-shadows gltf)
-                         scene-obj (doto (.-scene model)
-                                     (-> .-scale (.multiplyScalar 5)))
+                         scene-obj (.-scene model)
+                         temp-box (doto (THREE/Box3.) (.setFromObject scene-obj))
+                         size (.getSize temp-box (THREE/Vector3.))
+                         max-dim (js/Math.max (.-x size) (.-y size) (.-z size))
+                         scale-factor (if (> max-dim 0) (/ 5 max-dim) 1)
+                         _ (-> scene-obj .-scale (.set scale-factor scale-factor scale-factor))
                          box (doto (THREE/Box3.) (.setFromObject scene-obj))
                          center (.getCenter box (THREE/Vector3.))]
                      ; Position model to be centered and sit on the ground plane
