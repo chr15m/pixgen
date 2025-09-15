@@ -23,7 +23,9 @@
     <script>scittle.core.disable_auto_eval()</script>
     <script type="module">
         import * as THREE from "three";
+        import { OrbitControls } from "three/addons/controls/OrbitControls.js";
         window.THREE = THREE;
+        window.OrbitControls = OrbitControls;
         scittle.core.eval_script_tags();
     </script>
     <script type="application/x-scittle" src="main.cljs"></script>

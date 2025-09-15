@@ -1,7 +1,9 @@
 (ns main
-  (:require ["THREE" :as THREE]))
+  (:require ["THREE" :as THREE]
+            ["OrbitControls" :as OrbitControls]))
 
 (js/console.log "THREE" THREE)
+(js/console.log "OrbitControls" OrbitControls)
 
 (defonce state (atom {:frame-count 0}))
 (defonce animated (atom false))
@@ -15,8 +17,8 @@
 
 (defn animate []
   (js/requestAnimationFrame animate)
-  (let [{:keys [cube renderer scene camera]} @state]
-    (when (and cube renderer scene camera)
+  (let [{:keys [cube renderer scene camera controls]} @state]
+    (when (and cube renderer scene camera controls)
       (swap! state update :frame-count inc)
       (when-not @animated
         (js/console.log "first animation frame")
@@ -27,6 +29,7 @@
         (js/console.log "cube position:" (.-position cube)))
       (set! (.-rotation.x cube) (+ (.-rotation.x cube) 0.01))
       (set! (.-rotation.y cube) (+ (.-rotation.y cube) 0.01))
+      (.update controls)
       (.render renderer scene camera))))
 
 (defn init []
@@ -51,12 +54,17 @@
         cube (THREE/Mesh. geometry material)
         _ (js/console.log "cube" cube)
         _ (.add scene cube)
-        _ (js/console.log "scene after add" scene)]
+        _ (js/console.log "scene after add" scene)
+
+        controls (OrbitControls. camera (.-domElement renderer))
+        _ (.update controls)
+        _ (js/console.log "controls" controls)]
 
     (swap! state merge {:scene scene
                         :camera camera
                         :renderer renderer
-                        :cube cube})
+                        :cube cube
+                        :controls controls})
 
     (print "state:" @state)
 
