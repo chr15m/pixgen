@@ -34,12 +34,10 @@
       (aset spinner "style" "display"
             (if loading? "block" "none")))))
 
-(defn update-model-name-display [model-path]
+(defn update-model-name-display [text]
   (let [display-el (.getElementById js/document "model-name-display")]
     (when display-el
-      (let [file-name (last (.split model-path "/"))
-            base-name (first (.split file-name "."))]
-        (set! (.-textContent display-el) base-name)))))
+      (set! (.-textContent display-el) text))))
 
 (defn remove-scenery [scene]
   (let [scenery-to-remove (->> (.-children scene)
@@ -75,7 +73,7 @@
 
 (defn load-model [model-path]
   (set-loading true)
-  (update-model-name-display model-path)
+  (update-model-name-display (first (.split (last (.split model-path "/")) ".")))
   (let [{:keys [scene loader model]} @state]
     (when model
       (.remove scene model))
@@ -272,6 +270,7 @@
             (set-loading false)))
         (do
           (js/console.error "Failed to load models/directory.json")
+          (update-model-name-display "3d models not found")
           (set-loading false))))
 
     (.addEventListener js/window "resize" on-window-resize false)
