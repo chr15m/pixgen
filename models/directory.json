@@ -1,0 +1,1390 @@
+[
+  {
+    "type": "directory",
+    "name": ".",
+    "mode": "0775",
+    "prot": "drwxrwxr-x",
+    "size": 50709752,
+    "time": "2025-09-16T11:32:21",
+    "contents": [
+      {
+        "type": "directory",
+        "name": "./generated",
+        "mode": "0775",
+        "prot": "drwxrwxr-x",
+        "size": 49200888,
+        "time": "2025-09-16T11:32:21",
+        "contents": [
+          {
+            "type": "file",
+            "name": "./generated/1-ship-float.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 4829428,
+            "time": "2025-09-15T09:49:24"
+          },
+          {
+            "type": "file",
+            "name": "./generated/2-ship-float.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 4744980,
+            "time": "2025-09-15T10:12:34"
+          },
+          {
+            "type": "file",
+            "name": "./generated/3-ship-float.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 3496548,
+            "time": "2025-09-15T16:44:10"
+          },
+          {
+            "type": "file",
+            "name": "./generated/4-temple.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 4857900,
+            "time": "2025-09-15T12:23:36"
+          },
+          {
+            "type": "file",
+            "name": "./generated/5-temple.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5434468,
+            "time": "2025-09-15T12:29:52"
+          },
+          {
+            "type": "file",
+            "name": "./generated/6-building.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5851952,
+            "time": "2025-09-15T12:28:28"
+          },
+          {
+            "type": "file",
+            "name": "./generated/7-building.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 6484624,
+            "time": "2025-09-15T12:31:52"
+          },
+          {
+            "type": "file",
+            "name": "./generated/8-treehouse.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 6740512,
+            "time": "2025-09-15T13:15:54"
+          },
+          {
+            "type": "file",
+            "name": "./generated/9-treehouse.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 6756380,
+            "time": "2025-09-15T13:19:30"
+          }
+        ]
+      },
+      {
+        "type": "directory",
+        "name": "./kenney-nature-kit",
+        "mode": "0775",
+        "prot": "drwxrwxr-x",
+        "size": 1504768,
+        "time": "2025-09-16T11:14:24",
+        "contents": [
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/flower_purpleA.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 7112,
+            "time": "2025-09-16T11:13:57"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/flower_purpleB.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 8084,
+            "time": "2025-09-16T11:13:57"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/flower_purpleC.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 7600,
+            "time": "2025-09-16T11:13:57"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/flower_redA.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 7104,
+            "time": "2025-09-16T11:13:57"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/flower_redB.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 8080,
+            "time": "2025-09-16T11:13:57"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/flower_redC.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 7600,
+            "time": "2025-09-16T11:13:57"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/flower_yellowA.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 7120,
+            "time": "2025-09-16T11:13:57"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/flower_yellowB.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 11256,
+            "time": "2025-09-16T11:13:57"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/flower_yellowC.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 7616,
+            "time": "2025-09-16T11:13:57"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/grass.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 11496,
+            "time": "2025-09-16T11:12:32"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/grass_large.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 18504,
+            "time": "2025-09-16T11:14:13"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/grass_leafs.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 4608,
+            "time": "2025-09-16T11:14:13"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/grass_leafsLarge.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 13988,
+            "time": "2025-09-16T11:14:13"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/lily_large.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 8044,
+            "time": "2025-09-16T11:14:20"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/lily_small.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5664,
+            "time": "2025-09-16T11:14:20"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/log_large.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 7924,
+            "time": "2025-09-16T11:14:24"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/log_stack.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 10896,
+            "time": "2025-09-16T11:14:24"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/log_stackLarge.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 17604,
+            "time": "2025-09-16T11:14:24"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/mushroom_red.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 6364,
+            "time": "2025-09-16T11:13:44"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/mushroom_redGroup.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 14960,
+            "time": "2025-09-16T11:13:44"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/mushroom_redTall.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 6504,
+            "time": "2025-09-16T11:13:44"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/mushroom_tan.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5804,
+            "time": "2025-09-16T11:13:44"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/mushroom_tanGroup.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 14956,
+            "time": "2025-09-16T11:13:44"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/mushroom_tanTall.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 6500,
+            "time": "2025-09-16T11:13:44"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/plant_bushDetailed.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 10172,
+            "time": "2025-09-16T11:13:49"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/plant_bush.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 4396,
+            "time": "2025-09-16T11:13:49"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/plant_bushLarge.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 6436,
+            "time": "2025-09-16T11:13:49"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/plant_bushLargeTriangle.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 4564,
+            "time": "2025-09-16T11:13:49"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/plant_bushSmall.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 3212,
+            "time": "2025-09-16T11:13:49"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/plant_bushTriangle.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 3956,
+            "time": "2025-09-16T11:13:49"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/plant_flatShort.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 3936,
+            "time": "2025-09-16T11:13:49"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/plant_flatTall.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 3480,
+            "time": "2025-09-16T11:13:49"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_largeA.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 7552,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_largeB.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 8560,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_largeC.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 7004,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_largeD.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 7992,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_largeE.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 6464,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_largeF.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 7516,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_smallA.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 3044,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_smallB.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 3528,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_smallC.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 3044,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_smallD.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 4012,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_smallE.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5932,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_smallF.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5700,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_smallFlatA.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 3300,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_smallFlatB.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 3056,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_smallFlatC.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 4508,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_smallG.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 4204,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_smallH.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 6200,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_smallI.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5120,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_smallTopA.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5220,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_smallTopB.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 6660,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_tallA.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 12072,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_tallB.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 14060,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_tallC.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5184,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_tallD.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5132,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_tallE.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5192,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_tallF.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5608,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_tallG.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 6772,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_tallH.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 7792,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_tallI.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5584,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/rock_tallJ.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5424,
+            "time": "2025-09-16T11:12:58"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_largeA.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 7124,
+            "time": "2025-09-16T11:13:07"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_largeB.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 8132,
+            "time": "2025-09-16T11:13:07"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_largeC.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 6580,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_largeD.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 7564,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_largeE.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 6036,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_largeF.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 7092,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_smallA.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 2620,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_smallB.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 3100,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_smallC.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 2620,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_smallD.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 3584,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_smallE.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5504,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_smallF.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5272,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_smallFlatA.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 2872,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_smallFlatB.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 2632,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_smallFlatC.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 4080,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_smallG.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 3776,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_smallH.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5772,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_smallI.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 4692,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_smallTopA.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 4792,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_smallTopB.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 6232,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_tallA.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 11644,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_tallB.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 13596,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_tallC.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 4788,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_tallD.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 4704,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_tallE.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 4764,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_tallF.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5180,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_tallG.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 6344,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_tallH.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 7364,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_tallI.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5160,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stone_tallJ.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 4808,
+            "time": "2025-09-16T11:13:08"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stump_old.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 9564,
+            "time": "2025-09-16T11:14:07"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stump_oldTall.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 9564,
+            "time": "2025-09-16T11:14:07"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stump_roundDetailed.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 8188,
+            "time": "2025-09-16T11:14:07"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stump_round.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5644,
+            "time": "2025-09-16T11:14:07"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stump_squareDetailed.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 7544,
+            "time": "2025-09-16T11:14:07"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stump_squareDetailedWide.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 7536,
+            "time": "2025-09-16T11:14:07"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/stump_square.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 4584,
+            "time": "2025-09-16T11:14:07"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_blocks_dark.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 10132,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_blocks_fall.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 18368,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_blocks.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 10128,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_cone_dark.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 19940,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_cone_fall.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 10916,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_cone.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 10924,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_default_dark.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 9436,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_default_fall.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 16940,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_default.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 9428,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_detailed_dark.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 31416,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_detailed_fall.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 31404,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_detailed.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 31412,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_fat_darkh.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5584,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_fat_fall.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5572,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_fat.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5576,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_oak_dark.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 14648,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_oak_fall.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 14640,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_oak.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 14644,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_palmBend.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 14820,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_palmDetailedShort.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 28212,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_palmDetailedTall.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 28204,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_palm.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 13616,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_palmShort.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 15596,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_palmTall.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 15592,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_pineDefaultA.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 17220,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_pineDefaultB.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 18180,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_pineGroundA.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 6704,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_pineGroundB.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 6704,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_pineRoundA.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 14488,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_pineRoundB.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 18464,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_pineRoundC.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 15332,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_pineRoundD.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 13748,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_pineRoundE.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 15308,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_pineRoundF.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 16264,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_pineSmallA.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 12820,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_pineSmallB.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 7816,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_pineSmallC.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5376,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_pineSmallD.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 5368,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_pineTallA_detailed.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 10708,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_pineTallA.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 7200,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_pineTallB_detailed.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 12632,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_pineTallB.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 7204,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_pineTallC_detailed.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 11588,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_pineTallC.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 8080,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_pineTallD_detailed.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 12548,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_pineTallD.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 8080,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_plateau_dark.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 16308,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_plateau_fall.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 16296,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_plateau.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 16304,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_simple_dark.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 6508,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_simple_fall.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 6496,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_simple.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 6500,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_small_dark.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 11092,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_small_fall.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 6492,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_small.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 6500,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_tall_dark.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 7008,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_tall_fall.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 12088,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_tall.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 7000,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_thin_dark.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 32488,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_thin_fall.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 17192,
+            "time": "2025-09-16T11:12:51"
+          },
+          {
+            "type": "file",
+            "name": "./kenney-nature-kit/tree_thin.glb",
+            "mode": "0664",
+            "prot": "-rw-rw-r--",
+            "size": 17200,
+            "time": "2025-09-16T11:12:51"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "report",
+    "size": 50709752,
+    "directories": 2,
+    "files": 169
+  }
+]
