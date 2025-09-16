@@ -169,14 +169,20 @@
 
 (defn animate []
   (js/requestAnimationFrame animate)
-  (let [{:keys [renderer scene camera controls model model-base-y static]}
+  (let [{:keys [renderer scene camera controls model model-base-y static last-camera-pos]}
         @state]
     (when (and renderer scene camera controls)
       (when (and model model-base-y (not static))
         (let [time (* (.getTime (js/Date.)) 0.002)]
           (set! (-> model .-position .-y)
                 (+ model-base-y (* (js/Math.sin time) 0.03)))))
+      (when (< (-> camera .-position .-y) 0)
+        (js/console.log "camera position update"
+                        (-> camera .-position .toArray)
+                        (-> last-camera-pos .toArray))
+        (-> camera .-position (.copy last-camera-pos)))
       (.update controls)
+      (.copy last-camera-pos (.-position camera))
       (.render renderer scene camera))))
 
 (defn init []
@@ -217,7 +223,8 @@
                    :controls controls
                    :loader loader
                    :models []
-                   :current-model-index -1})
+                   :current-model-index -1
+                   :last-camera-pos (THREE/Vector3.)})
 
     (set-loading true)
     (p/let [response (js/fetch "models/directory.json")
