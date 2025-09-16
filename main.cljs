@@ -1,4 +1,5 @@
 (ns main
+  {:clj-kondo/config '{:lint-as {promesa.core/let clojure.core/let}}}
   (:require [promesa.core :as p]
             ["THREE" :as THREE]
             ["OrbitControls" :as OrbitControls]
@@ -8,6 +9,9 @@
 (def pixel-size 4)
 
 (defonce state (atom {}))
+
+(def DRAG_THRESHOLD 5)
+(defonce mouse-down-pos (atom nil))
 
 (defn apply-shadows [gltf & {:keys [brighten]}]
   (-> gltf .-scene
@@ -27,6 +31,27 @@
   (let [spinner (.getElementById js/document "spinner")]
     (when spinner
       (set! (.-style spinner "display") (if loading? "block" "none")))))
+
+(defn load-and-place-scenery []
+  (let [{:keys [scene loader scenery-models]} @state
+        model-name (rand-nth scenery-models)]
+    (when model-name
+      (.load loader (str "models/" model-name)
+             (fn [gltf]
+               (let [model (apply-shadows gltf)
+                     scene-obj (.-scene model)
+                     angle (* (js/Math.random) js/Math.PI 2)
+                     radius (+ 4 (* (js/Math.random) 3))
+                     x (* radius (js/Math.cos angle))
+                     z (* radius (js/Math.sin angle))
+                     scale (if (.includes model-name "tree")
+                             (+ 1 (* (js/Math.random) 2))
+                             1)]
+                 (-> scene-obj .-position (.set x 0 z))
+                 (-> scene-obj .-scale (.set scale scale scale))
+                 (-> scene-obj .-rotation
+                     (.set 0 (* (js/Math.random) js/Math.PI 2) 0))
+                 (.add scene scene-obj)))))))
 
 (defn load-model [model-path]
   (set-loading true)
@@ -53,10 +78,14 @@
                                                 base-y
                                                 (- (.-z center))))
                  (.add scene scene-obj)
-                 (swap! state assoc
-                        :model scene-obj
-                        :static static
-                        :model-base-y base-y)
+                 (let [first-load? (not (:scenery-loaded? @state))]
+                   (when first-load?
+                     (dotimes [_ 15] (load-and-place-scenery)))
+                   (swap! state #(-> %
+                                     (assoc :model scene-obj
+                                            :static static
+                                            :model-base-y base-y)
+                                     (cond-> first-load? (assoc :scenery-loaded? true)))))
                  (let [{:keys [controls]} @state]
                    (.updateWorldMatrix scene-obj true)
                    (let [new-box (doto (THREE/Box3.) (.setFromObject scene-obj))
@@ -79,8 +108,21 @@
     ("ArrowLeft" "PageUp") (change-model -1)
     nil))
 
-(defn handle-tap [_event]
-  (change-model 1))
+(defn handle-mouse-down [event]
+  (let [source (if (.-changedTouches event) (aget (.-changedTouches event) 0) event)]
+    (reset! mouse-down-pos {:x (.-clientX source) :y (.-clientY source)})))
+
+(defn handle-mouse-up [event]
+  (when-let [down-pos @mouse-down-pos]
+    (let [source (if (.-changedTouches event) (aget (.-changedTouches event) 0) event)
+          up-x (.-clientX source)
+          up-y (.-clientY source)
+          dx (- up-x (:x down-pos))
+          dy (- up-y (:y down-pos))
+          distance (js/Math.sqrt (+ (* dx dx) (* dy dy)))]
+      (when (< distance DRAG_THRESHOLD)
+        (change-model 1)))
+    (reset! mouse-down-pos nil)))
 
 (defn on-window-resize []
   (let [{:keys [camera renderer]} @state]
@@ -158,14 +200,24 @@
     (p/let [response (js/fetch "models/directory.json")
             dir-data (when (.-ok response) (.json response))]
       (if dir-data
-        (let [model-files (->> (aget (first dir-data) "contents")
-                               (filter #(and (= (aget % "type") "file")
-                                             (.endsWith (aget % "name") ".glb")))
-                               (map #(aget % "name"))
-                               (map #(.substring % 2))
-                               (sort)
-                               (vec))]
-          (if (pos? (count model-files))
+        (let [root-contents (-> dir-data first (aget "contents"))
+              generated-dir (first (filter #(= (aget % "name") "./generated") root-contents))
+              scenery-dir (first (filter #(= (aget % "name") "./kenney-nature-kit") root-contents))
+              model-files (when generated-dir
+                            (->> (aget generated-dir "contents")
+                                 (filter #(and (= (aget % "type") "file") (.endsWith (aget % "name") ".glb")))
+                                 (map #(aget % "name"))
+                                 (map #(.substring % 2))
+                                 (sort)
+                                 (vec)))
+              scenery-files (when scenery-dir
+                              (->> (aget scenery-dir "contents")
+                                   (filter #(and (= (aget % "type") "file") (.endsWith (aget % "name") ".glb")))
+                                   (map #(aget % "name"))
+                                   (map #(.substring % 2))
+                                   (vec)))]
+          (swap! state assoc :scenery-models scenery-files)
+          (if (and model-files (pos? (count model-files)))
             (do
               (swap! state assoc
                      :models model-files
@@ -179,7 +231,10 @@
     (.addEventListener js/window "resize" on-window-resize false)
     (on-window-resize)
     (.addEventListener js/window "keydown" handle-key-down false)
-    (.addEventListener js/window "click" handle-tap false)
+    (.addEventListener js/window "mousedown" handle-mouse-down false)
+    (.addEventListener js/window "mouseup" handle-mouse-up false)
+    (.addEventListener js/window "touchstart" handle-mouse-down false)
+    (.addEventListener js/window "touchend" handle-mouse-up false)
 
     (animate)))
 
