@@ -29,8 +29,17 @@
 
 (defn set-loading [loading?]
   (let [spinner (.getElementById js/document "spinner")]
+    (js/console.log "loading?" loading?)
     (when spinner
-      (set! (.-style spinner "display") (if loading? "block" "none")))))
+      (aset spinner "style" "display"
+            (if loading? "block" "none")))))
+
+(defn update-model-name-display [model-path]
+  (let [display-el (.getElementById js/document "model-name-display")]
+    (when display-el
+      (let [file-name (last (.split model-path "/"))
+            base-name (first (.split file-name "."))]
+        (set! (.-textContent display-el) base-name)))))
 
 (defn remove-scenery [scene]
   (let [scenery-to-remove (->> (.-children scene)
@@ -59,10 +68,14 @@
                  (-> scene-obj .-scale (.set scale scale scale))
                  (-> scene-obj .-rotation
                      (.set 0 (* (js/Math.random) js/Math.PI 2) 0))
-                 (.add scene scene-obj)))))))
+                 (.add scene scene-obj)))
+             nil
+             (fn [error]
+               (js/console.error "Error loading scenery:" model-name error)))))) 
 
 (defn load-model [model-path]
   (set-loading true)
+  (update-model-name-display model-path)
   (let [{:keys [scene loader model]} @state]
     (when model
       (.remove scene model))
@@ -98,7 +111,11 @@
                          new-center (.getCenter new-box (THREE/Vector3.))]
                      (-> controls .-target (.copy new-center))
                      (.update controls))))
-               (set-loading false))))))
+               (set-loading false)))
+           nil
+           (fn [error]
+             (js/console.error "Error loading model:" model-path error)
+             (set-loading false)))))
 
 (defn change-model [delta]
   (let [{:keys [models current-model-index]} @state]
@@ -189,9 +206,9 @@
                 (-> .-rotation (aset "x" (* -0.5 js/Math.PI)))
                 (aset "receiveShadow" true))
         _ (.add scene floor)
-        controls (OrbitControls. camera (.-domElement renderer))
-        _ (-> controls .-target (.set 0 0.5 0))
-        _ (.update controls)
+        controls (doto (OrbitControls. camera (.-domElement renderer))
+                   (-> .-target (.set 0 0.5 0))
+                   (.update))
         loader (GLTFLoader.)]
 
     (reset! state {:scene scene

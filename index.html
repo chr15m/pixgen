@@ -4,19 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Model Viewer</title>
-    <style>
-        body { margin: 0; overflow: hidden; background-color: #e0e0e0; }
-        canvas {
-            display: block;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: -webkit-crisp-edges;
-            image-rendering: pixelated;
-            image-rendering: crisp-edges;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="spinner" class="spinner" style="display: none;"></div>
+    <h2 id="model-name-display"></h2>
     <script type="importmap">
     {
         "imports": {
