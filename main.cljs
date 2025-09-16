@@ -167,22 +167,33 @@
         (set! (.. renderer -domElement -style -height)
               (str (.-innerHeight js/window) "px"))))))
 
+(defn handle-controls-change []
+  (let [{:keys [controls camera]} @state]
+    (when (and controls camera)
+      ; Prevent target from going below ground
+      (set! (-> controls .-target .-y) (js/Math.max (-> controls .-target .-y) 0))
+
+      (let [center-position (.clone (.-target controls))
+            _ (set! (.-y center-position) 0)
+            ground-position (.clone (.-position camera))
+            _ (set! (.-y ground-position) 0)
+            d (.distanceTo center-position ground-position)
+            origin (THREE/Vector2. (-> controls .-target .-y) 0)
+            remote (THREE/Vector2. 0 d)
+            angle-radians (js/Math.atan2 (- (.-y remote) (.-y origin))
+                                         (- (.-x remote) (.-x origin)))]
+        (set! (.-maxPolarAngle controls) angle-radians)))))
+
 (defn animate []
   (js/requestAnimationFrame animate)
-  (let [{:keys [renderer scene camera controls model model-base-y static last-camera-pos]}
+  (let [{:keys [renderer scene camera controls model model-base-y static]}
         @state]
     (when (and renderer scene camera controls)
       (when (and model model-base-y (not static))
         (let [time (* (.getTime (js/Date.)) 0.002)]
           (set! (-> model .-position .-y)
                 (+ model-base-y (* (js/Math.sin time) 0.03)))))
-      (when (< (-> camera .-position .-y) 0)
-        (js/console.log "camera position update"
-                        (-> camera .-position .toArray)
-                        (-> last-camera-pos .toArray))
-        (-> camera .-position (.copy last-camera-pos)))
       (.update controls)
-      (.copy last-camera-pos (.-position camera))
       (.render renderer scene camera))))
 
 (defn init []
@@ -214,6 +225,7 @@
         _ (.add scene floor)
         controls (doto (OrbitControls. camera (.-domElement renderer))
                    (-> .-target (.set 0 0.5 0))
+                   (.addEventListener "change" handle-controls-change)
                    (.update))
         loader (GLTFLoader.)]
 
@@ -223,8 +235,7 @@
                    :controls controls
                    :loader loader
                    :models []
-                   :current-model-index -1
-                   :last-camera-pos (THREE/Vector3.)})
+                   :current-model-index -1})
 
     (set-loading true)
     (p/let [response (js/fetch "models/directory.json")
