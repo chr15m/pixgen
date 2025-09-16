@@ -10,3 +10,24 @@ body {
 main {
   text-align: center;
 }
+
+.spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border-top: 2px solid grey;
+    border-bottom: 2px solid grey;
+    border-left: 2px solid transparent;
+    border-right: 2px solid transparent;
+    animation: spin 0.5s linear infinite;
+    z-index: 10;
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
