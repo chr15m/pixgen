@@ -18,7 +18,7 @@
    "mushroom_red.glb" "mushroom_tan.glb"
    "flower_redA.glb" "flower_purpleB.glb" "flower_yellowC.glb"])
 
-(defn apply-shadows [gltf]
+(defn apply-shadows [gltf & {:keys [brighten]}]
   (-> gltf .-scene
       (.traverse (fn [node]
                    (when (.-isMesh node)
@@ -26,6 +26,8 @@
                      (aset node "receiveShadow" true)
                      (when (.-material node)
                        ;(set! (.-color (.-material node)) (THREE/Color. 0xffffff))
+                       (-> node .-material .-color (.multiplyScalar
+                                                     (or brighten 1)))
                        (set! (.-metalness (.-material node)) 0.01)
                        (set! (.-roughness (.-material node)) 0.4))))))
   gltf)
@@ -137,10 +139,10 @@
               #_ ["models/replicate-prediction-xfexaea6f5rj00cs9j5vqpzsx0-0.glb"
                   false]
               ; dark spaceship
-              #_ ["models/replicate-prediction-b43jyjw0k9rj40cs9c7rq3nt80-0.glb"
+              ["models/replicate-prediction-b43jyjw0k9rj40cs9c7rq3nt80-0.glb"
                   false]
               ; cool spaceship
-              ["models/replicate-prediction-j9xw2dxvcxrj00cs9cj9m5pt38-0.glb"
+              #_ ["models/replicate-prediction-j9xw2dxvcxrj00cs9cj9m5pt38-0.glb"
                false]
               ; tokyo building
               #_ ["models/replicate-prediction-py91pvzmb5rj20cs9eg8tyejv8-0.glb"
@@ -160,7 +162,7 @@
           (.load loader
                  model-file
                  (fn [gltf]
-                   (let [model (apply-shadows gltf)
+                   (let [model (apply-shadows gltf {:brighten 5})
                          scene-obj (.-scene model)
                          temp-box (doto (THREE/Box3.) (.setFromObject scene-obj))
                          size (.getSize temp-box (THREE/Vector3.))
