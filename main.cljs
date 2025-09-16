@@ -79,43 +79,48 @@
   (let [{:keys [scene loader model]} @state]
     (when model
       (.remove scene model))
+    (remove-scenery scene)
+    (dotimes [_ 15] (load-and-place-scenery))
     (.load loader
            (str "models/" model-path)
            (fn [gltf]
-             (let [model (apply-shadows gltf {:brighten 5})
-                   scene-obj (.-scene model)
-                   static (not (.includes model-path "float"))
-                   temp-box (doto (THREE/Box3.) (.setFromObject scene-obj))
-                   size (.getSize temp-box (THREE/Vector3.))
-                   max-dim (js/Math.max (.-x size) (.-y size) (.-z size))
-                   scale-factor (if (> max-dim 0) (/ 5 max-dim) 1)
-                   _ (-> scene-obj .-scale
-                         (.set scale-factor scale-factor scale-factor))
-                   box (doto (THREE/Box3.) (.setFromObject scene-obj))
-                   center (.getCenter box (THREE/Vector3.))]
-               (remove-scenery scene)
-               (dotimes [_ 15] (load-and-place-scenery))
-               (let [base-y (- (- (.-y (.-min box))
-                                  (if static 0 1)))]
-                 (-> scene-obj .-position (.set (- (.-x center))
-                                                base-y
-                                                (- (.-z center))))
-                 (.add scene scene-obj)
-                 (swap! state assoc
-                        :model scene-obj
-                        :static static
-                        :model-base-y base-y)
-                 (let [{:keys [controls]} @state]
-                   (.updateWorldMatrix scene-obj true)
-                   (let [new-box (doto (THREE/Box3.) (.setFromObject scene-obj))
-                         new-center (.getCenter new-box (THREE/Vector3.))]
-                     (-> controls .-target (.copy new-center))
-                     (.update controls))))
-               (set-loading false)))
-           nil
-           (fn [error]
-             (js/console.error "Error loading model:" model-path error)
-             (set-loading false)))))
+             (let [{:keys [models current-model-index]} @state
+                   current-model-path (nth models current-model-index)]
+               (if (not= model-path current-model-path)
+                 (do
+                   (js/console.log "Model changed while loading, discarding:" model-path)
+                   (.remove scene (.-scene gltf)))
+                 (let [model (apply-shadows gltf {:brighten 5})
+                       scene-obj (.-scene model)
+                       static (not (.includes model-path "float"))
+                       temp-box (doto (THREE/Box3.) (.setFromObject scene-obj))
+                       size (.getSize temp-box (THREE/Vector3.))
+                       max-dim (js/Math.max (.-x size) (.-y size) (.-z size))
+                       scale-factor (if (> max-dim 0) (/ 5 max-dim) 1)
+                       _ (-> scene-obj .-scale
+                             (.set scale-factor scale-factor scale-factor))
+                       box (doto (THREE/Box3.) (.setFromObject scene-obj))
+                       center (.getCenter box (THREE/Vector3.))
+                       base-y (- (- (.-y (.-min box))
+                                    (if static 0 1)))]
+                   (-> scene-obj .-position (.set (- (.-x center))
+                                                  base-y
+                                                  (- (.-z center))))
+                   (.add scene scene-obj)
+                   (swap! state assoc
+                          :model scene-obj
+                          :static static
+                          :model-base-y base-y)
+                   (let [{:keys [controls]} @state]
+                     (.updateWorldMatrix scene-obj true)
+                     (let [new-box (doto (THREE/Box3.) (.setFromObject scene-obj))
+                           new-center (.getCenter new-box (THREE/Vector3.))]
+                       (-> controls .-target (.copy new-center))
+                       (.update controls))))))
+             (set-loading false))))
+  (fn [error]
+    (js/console.error "Error loading model:" model-path error)
+    (set-loading false)))
 
 (defn change-model [delta]
   (let [{:keys [models current-model-index]} @state]
