@@ -32,6 +32,13 @@
     (when spinner
       (set! (.-style spinner "display") (if loading? "block" "none")))))
 
+(defn remove-scenery [scene]
+  (let [scenery-to-remove (->> (.-children scene)
+                               (filter #(aget % "isScenery"))
+                               (vec))]
+    (doseq [child scenery-to-remove]
+      (.remove scene child))))
+
 (defn load-and-place-scenery []
   (let [{:keys [scene loader scenery-models]} @state
         model-name (rand-nth scenery-models)]
@@ -47,6 +54,7 @@
                      scale (if (.includes model-name "tree")
                              (+ 1 (* (js/Math.random) 2))
                              1)]
+                 (aset scene-obj "isScenery" true)
                  (-> scene-obj .-position (.set x 0 z))
                  (-> scene-obj .-scale (.set scale scale scale))
                  (-> scene-obj .-rotation
@@ -72,20 +80,18 @@
                          (.set scale-factor scale-factor scale-factor))
                    box (doto (THREE/Box3.) (.setFromObject scene-obj))
                    center (.getCenter box (THREE/Vector3.))]
+               (remove-scenery scene)
+               (dotimes [_ 15] (load-and-place-scenery))
                (let [base-y (- (- (.-y (.-min box))
                                   (if static 0 1)))]
                  (-> scene-obj .-position (.set (- (.-x center))
                                                 base-y
                                                 (- (.-z center))))
                  (.add scene scene-obj)
-                 (let [first-load? (not (:scenery-loaded? @state))]
-                   (when first-load?
-                     (dotimes [_ 15] (load-and-place-scenery)))
-                   (swap! state #(-> %
-                                     (assoc :model scene-obj
-                                            :static static
-                                            :model-base-y base-y)
-                                     (cond-> first-load? (assoc :scenery-loaded? true)))))
+                 (swap! state assoc
+                        :model scene-obj
+                        :static static
+                        :model-base-y base-y)
                  (let [{:keys [controls]} @state]
                    (.updateWorldMatrix scene-obj true)
                    (let [new-box (doto (THREE/Box3.) (.setFromObject scene-obj))
