@@ -74,8 +74,19 @@
 
 (defonce state (atom {}))
 
+(defn update-model-name-display [text]
+  (let [display-el (.getElementById js/document "model-name-display")]
+    (when display-el
+      (set! (.-textContent display-el) text))))
+
+(defn update-palette-name-display [text]
+  (let [display-el (.getElementById js/document "palette-name-display")]
+    (when display-el
+      (set! (.-textContent display-el) text))))
+
 (defn load-palette [palette-name]
   (js/console.log "DEBUG: Starting to load palette" palette-name)
+  (update-palette-name-display palette-name)
   (p/let [response (js/fetch (str "assets/palettes/" palette-name ".hex"))
           text (when (.-ok response) (.text response))]
     (if text
@@ -124,11 +135,6 @@
     (when spinner
       (aset spinner "style" "display"
             (if loading? "block" "none")))))
-
-(defn update-model-name-display [text]
-  (let [display-el (.getElementById js/document "model-name-display")]
-    (when display-el
-      (set! (.-textContent display-el) text))))
 
 (defn remove-scenery [scene]
   (let [scenery-to-remove (->> (.-children scene)
