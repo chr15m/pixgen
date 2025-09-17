@@ -82,7 +82,9 @@
 (defn update-palette-name-display [text]
   (let [display-el (.getElementById js/document "palette-name-display")]
     (when display-el
-      (set! (.-textContent display-el) text))))
+      (set! (.-textContent display-el)
+            (str "palette: "
+                 text)))))
 
 (defn load-palette [palette-name]
   (js/console.log "DEBUG: Starting to load palette" palette-name)
