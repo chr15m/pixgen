@@ -3,12 +3,102 @@
   (:require [promesa.core :as p]
             ["THREE" :as THREE]
             ["OrbitControls" :as OrbitControls]
-            ["GLTFLoader" :as GLTFLoader]))
+            ["GLTFLoader" :as GLTFLoader]
+            ["EffectComposer" :as EffectComposer]
+            ["RenderPass" :as RenderPass]
+            ["ShaderPass" :as ShaderPass]))
 
 (def BASE_FOV 50)
 (def pixel-size 4)
 
+(def palettes ["31" "vinik24" "waldgeist"])
+(defonce current-palette-index (atom 0))
+
+(def MAX_PALETTE_SIZE 64)
+
+(def default-palette
+  (let [base-colors (map #(THREE/Color. %) [0x000000 0xffffff 0xff0000 0x00ff00 0x0000ff 0xffff00 0x00ffff 0xff00ff])]
+    (vec (take MAX_PALETTE_SIZE (concat base-colors (repeat (THREE/Color. 0x000000)))))))
+
+(def palette-shader-def
+  {:uniforms #js {:tDiffuse #js {:value nil}
+                  :u_palette #js {:value (clj->js default-palette)}
+                  :u_palette_size #js {:value 8}}
+   :vertexShader "
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+    }"
+   :fragmentShader "
+    #define MAX_PALETTE_SIZE 64
+    uniform sampler2D tDiffuse;
+    uniform vec3 u_palette[MAX_PALETTE_SIZE];
+    uniform int u_palette_size;
+    varying vec2 vUv;
+
+    float color_distance_sq(vec3 c1, vec3 c2) {
+      vec3 d = c1 - c2;
+      return dot(d, d);
+    }
+
+    void main() {
+      vec4 original_color = texture2D(tDiffuse, vUv);
+
+      if (u_palette_size == 0) {
+        // DEBUG: Palette not loaded or empty, render green.
+        gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);
+        return;
+      }
+
+      vec3 closest_color = u_palette[0];
+      float min_dist_sq = 1000.0;
+
+      for (int i = 0; i < MAX_PALETTE_SIZE; i++) {
+        if (i >= u_palette_size) break;
+        float dist_sq = color_distance_sq(original_color.rgb, u_palette[i]);
+        if (dist_sq < min_dist_sq) {
+          min_dist_sq = dist_sq;
+          closest_color = u_palette[i];
+        }
+      }
+
+      if (min_dist_sq == 1000.0) {
+        // DEBUG: Loop ran but no color was ever closer. Should not happen. Render blue.
+        gl_FragColor = vec4(0.0, 0.0, 1.0, 1.0);
+        return;
+      }
+
+      gl_FragColor = vec4(closest_color, original_color.a);
+    }"})
+
 (defonce state (atom {}))
+
+(defn load-palette [palette-name]
+  (js/console.log "DEBUG: Starting to load palette" palette-name)
+  (p/let [response (js/fetch (str "palettes/" palette-name ".hex"))
+          text (when (.-ok response) (.text response))]
+    (if text
+      (let [colors (->> (.split text "\n")
+                        (filter #(not= % ""))
+                        (map #(js/parseInt % 16))
+                        (map #(THREE/Color. %))
+                        (vec))
+            padded-colors (vec (take MAX_PALETTE_SIZE (concat colors (repeat (THREE/Color. 0x000000)))))
+            {:keys [palette-pass]} @state]
+        (js/console.log "DEBUG: Loaded palette" palette-name "with" (count colors) "colors.")
+        (if palette-pass
+          (do
+            (js/console.log "DEBUG: palette-pass found. Current size uniform:" (-> palette-pass .-uniforms .-u_palette_size .-value))
+            (set! (-> palette-pass .-uniforms .-u_palette .-value) (clj->js padded-colors))
+            (set! (-> palette-pass .-uniforms .-u_palette_size .-value) (count colors))
+            (js/console.log "DEBUG: Set palette uniforms. New size:" (-> palette-pass .-uniforms .-u_palette_size .-value) "New colors:" (-> palette-pass .-uniforms .-u_palette .-value)))
+          (js/console.error "DEBUG: palette-pass not found in state!")))
+      (js/console.error "Failed to load palette:" palette-name))))
+
+(defn cycle-palette []
+  (swap! current-palette-index #(mod (inc %) (count palettes)))
+  (load-palette (nth palettes @current-palette-index)))
 
 (def DRAG_THRESHOLD 5)
 (defonce mouse-down-pos (atom nil))
@@ -132,6 +222,7 @@
   (case (.-key event)
     ("ArrowRight" "PageDown" " " "Enter") (change-model 1)
     ("ArrowLeft" "PageUp") (change-model -1)
+    "p" (cycle-palette)
     nil))
 
 (defn handle-mouse-down [event]
@@ -151,9 +242,15 @@
     (reset! mouse-down-pos nil)))
 
 (defn on-window-resize []
-  (let [{:keys [camera renderer]} @state]
-    (when (and camera renderer)
-      (let [aspect (/ (.-innerWidth js/window) (.-innerHeight js/window))]
+  (js/console.log "DEBUG: on-window-resize triggered.")
+  (let [{:keys [camera renderer composer]} @state]
+    (when (and camera renderer composer)
+      (let [w (.-innerWidth js/window)
+            h (.-innerHeight js/window)
+            pw (/ w pixel-size)
+            ph (/ h pixel-size)
+            aspect (/ w h)]
+        (js/console.log "DEBUG: Resizing to" w "x" h "(pixelated:" pw "x" ph ")")
         (if (>= aspect 1)
           (set! (.-fov camera) BASE_FOV)
           (let [fov-rad (* 2 (js/Math.atan
@@ -162,13 +259,12 @@
             (set! (.-fov camera) (/ (* fov-rad 180) js/Math.PI))))
         (set! (.-aspect camera) aspect)
         (.updateProjectionMatrix camera)
-        (.setSize renderer
-                  (/ (.-innerWidth js/window) pixel-size)
-                  (/ (.-innerHeight js/window) pixel-size))
+        (.setSize renderer pw ph)
+        (.setSize composer pw ph)
         (set! (.. renderer -domElement -style -width)
-              (str (.-innerWidth js/window) "px"))
+              (str w "px"))
         (set! (.. renderer -domElement -style -height)
-              (str (.-innerHeight js/window) "px"))))))
+              (str h "px"))))))
 
 (defn handle-controls-change []
   (let [{:keys [controls camera]} @state]
@@ -189,26 +285,40 @@
 
 (defn animate []
   (js/requestAnimationFrame animate)
-  (let [{:keys [renderer scene camera controls model model-base-y static]}
+  ;(js/console.log "In animate")
+  (let [{:keys [renderer scene camera controls model model-base-y static composer]}
         @state]
+    ;(js/console.log "In animate let")
+    ;(js/console.log renderer scene composer)
     (when (and renderer scene camera controls)
+      ;(js/console.log "In 2")
       (when (and model model-base-y (not static))
+        ;(js/console.log "In 3")
         (let [time (* (.getTime (js/Date.)) 0.002)]
+          ; (js/console.log "In 4")
           (set! (-> model .-position .-y)
                 (+ model-base-y (* (js/Math.sin time) 0.03)))))
+      ;(js/console.log "In 5")
       (.update controls)
-      (.render renderer scene camera))))
+      ;(js/console.log "In 6")
+      (if composer
+        (.render composer)
+        (.render renderer scene camera))
+      #_ (js/console.log "animate done"))))
 
 (defn init []
-  (js/console.log "init...")
+  (js/console.log "DEBUG: init started.")
   (let [scene (THREE/Scene.)
+        _ (js/console.log "DEBUG: Scene created.")
         _ (set! (.-background scene) (THREE/Color. 0x303030))
         camera (THREE/PerspectiveCamera.
                  70 (/ (.-innerWidth js/window)
                        (.-innerHeight js/window))
                  0.1 100)
+        _ (js/console.log "DEBUG: Camera created.")
         _ (-> camera .-position (.set 5 5 5))
         renderer (THREE/WebGLRenderer. #js {:antialias false})
+        _ (js/console.log "DEBUG: Renderer created.")
         _ (set! (.. renderer -shadowMap -enabled) true)
         _ (set! (.. renderer -shadowMap -type) THREE/PCFShadowMap)
         _ (set! (.-toneMapping renderer) THREE/NoToneMapping)
@@ -221,26 +331,42 @@
                         (-> .-shadow .-mapSize (.set 1024 1024))))
         _ (.add scene (doto (THREE/DirectionalLight. 0xffffff 0.5)
                         (-> .-position (.set -20 20 20))))
+        _ (js/console.log "DEBUG: Lights added.")
         floor (doto (THREE/Mesh. (THREE/PlaneGeometry. 20 20)
                                  (THREE/ShadowMaterial. #js {:opacity 0.3}))
                 (-> .-rotation (aset "x" (* -0.5 js/Math.PI)))
                 (aset "receiveShadow" true))
         _ (.add scene floor)
+        _ (js/console.log "DEBUG: Floor added.")
         controls (doto (OrbitControls. camera (.-domElement renderer))
                    (-> .-target (.set 0 0.5 0))
                    (.addEventListener "change" handle-controls-change)
                    (.update))
-        loader (GLTFLoader.)]
+        _ (js/console.log "DEBUG: Controls created.")
+        loader (GLTFLoader.)
+        composer (EffectComposer. renderer)
+        _ (js/console.log "DEBUG: Composer created.")
+        render-pass (RenderPass. scene camera)
+        _ (.addPass composer render-pass)
+        _ (js/console.log "DEBUG: RenderPass created and added.")
+        palette-pass (ShaderPass. (clj->js palette-shader-def))
+        _ (.addPass composer palette-pass)
+        _ (js/console.log "DEBUG: ShaderPass created and added.")
+        _ (js/console.log "DEBUG: Initial palette uniform value:" (-> palette-pass .-uniforms .-u_palette .-value))]
 
     (reset! state {:scene scene
                    :camera camera
                    :renderer renderer
                    :controls controls
                    :loader loader
+                   :composer composer
+                   :palette-pass palette-pass
                    :models []
                    :current-model-index -1})
+    (js/console.log "DEBUG: State initialized.")
 
     (set-loading true)
+    (load-palette "31")
     (p/let [response (js/fetch "models/directory.json")
             dir-data (when (.-ok response) (.json response))]
       (if dir-data
