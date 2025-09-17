@@ -76,7 +76,7 @@
 
 (defn load-palette [palette-name]
   (js/console.log "DEBUG: Starting to load palette" palette-name)
-  (p/let [response (js/fetch (str "palettes/" palette-name ".hex"))
+  (p/let [response (js/fetch (str "assets/palettes/" palette-name ".hex"))
           text (when (.-ok response) (.text response))]
     (if text
       (let [colors (->> (.split text "\n")
@@ -140,7 +140,7 @@
   (let [{:keys [scene loader scenery-models]} @state
         model-name (rand-nth scenery-models)]
     (when model-name
-      (.load loader (str "models/" model-name)
+      (.load loader (str "assets/" model-name)
              (fn [gltf]
                (let [model (apply-shadows gltf)
                      scene-obj (.-scene model)
@@ -170,7 +170,7 @@
     (remove-scenery scene)
     (dotimes [_ 15] (load-and-place-scenery))
     (.load loader
-           (str "models/" model-path)
+           (str "assets/" model-path)
            (fn [gltf]
              (let [{:keys [models current-model-index]} @state
                    current-model-path (nth models current-model-index)]
@@ -367,7 +367,7 @@
 
     (set-loading true)
     (load-palette "31")
-    (p/let [response (js/fetch "models/directory.json")
+    (p/let [response (js/fetch "assets/directory.json")
             dir-data (when (.-ok response) (.json response))]
       (if dir-data
         (let [root-contents (-> dir-data first (aget "contents"))
@@ -395,8 +395,8 @@
               (load-model (first model-files)))
             (set-loading false)))
         (do
-          (js/console.error "Failed to load models/directory.json")
-          (update-model-name-display "3d models not found")
+          (js/console.error "Failed to load assets/directory.json")
+          (update-model-name-display "assets/directory.json not found")
           (set-loading false))))
 
     (.addEventListener js/window "resize" on-window-resize false)

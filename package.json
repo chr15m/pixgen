@@ -1,5 +1,5 @@
 {
   "scripts": {
-    "build": "cd models && tree -P '*.glb' --timefmt '%Y-%m-%dT%H:%M:%S' --du -fpDsJ . | jq . > directory.json"
+    "build": "cd assets && tree -P '*.glb' -P '*.hex' --timefmt '%Y-%m-%dT%H:%M:%S' --du -fpDsJ . | jq . > directory.json"
   }
 }
