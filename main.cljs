@@ -311,7 +311,7 @@
   (js/console.log "DEBUG: init started.")
   (let [scene (THREE/Scene.)
         _ (js/console.log "DEBUG: Scene created.")
-        _ (set! (.-background scene) (THREE/Color. 0x303030))
+        _ (set! (.-background scene) (THREE/Color. 0x80a080))
         camera (THREE/PerspectiveCamera.
                  70 (/ (.-innerWidth js/window)
                        (.-innerHeight js/window))
