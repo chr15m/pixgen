@@ -87,25 +87,26 @@
 (defn load-palette [palette-name]
   (js/console.log "DEBUG: Starting to load palette" palette-name)
   (update-palette-name-display palette-name)
-  (p/let [response (js/fetch (str "assets/palettes/" palette-name ".hex"))
-          text (when (.-ok response) (.text response))]
-    (if text
-      (let [colors (->> (.split text "\n")
-                        (filter #(not= % ""))
-                        (map #(js/parseInt % 16))
-                        (map #(THREE/Color. %))
-                        (vec))
-            padded-colors (vec (take MAX_PALETTE_SIZE (concat colors (repeat (THREE/Color. 0x000000)))))
-            {:keys [palette-pass]} @state]
-        (js/console.log "DEBUG: Loaded palette" palette-name "with" (count colors) "colors.")
-        (if palette-pass
-          (do
-            (js/console.log "DEBUG: palette-pass found. Current size uniform:" (-> palette-pass .-uniforms .-u_palette_size .-value))
-            (set! (-> palette-pass .-uniforms .-u_palette .-value) (clj->js padded-colors))
-            (set! (-> palette-pass .-uniforms .-u_palette_size .-value) (count colors))
-            (js/console.log "DEBUG: Set palette uniforms. New size:" (-> palette-pass .-uniforms .-u_palette_size .-value) "New colors:" (-> palette-pass .-uniforms .-u_palette .-value)))
-          (js/console.error "DEBUG: palette-pass not found in state!")))
-      (js/console.error "Failed to load palette:" palette-name))))
+  (let [{:keys [palette-pass]} @state]
+    (if palette-pass
+      (if (= "default" palette-name)
+        (set! (.-enabled palette-pass) false)
+        (do
+          (set! (.-enabled palette-pass) true)
+          (p/let [response (js/fetch (str "assets/palettes/" palette-name ".hex"))
+                  text (when (.-ok response) (.text response))]
+            (if text
+              (let [colors (->> (.split text "\n")
+                                (filter #(not= % ""))
+                                (map #(js/parseInt % 16))
+                                (map #(THREE/Color. %))
+                                (vec))
+                    padded-colors (vec (take MAX_PALETTE_SIZE (concat colors (repeat (THREE/Color. 0x000000)))))]
+                (js/console.log "DEBUG: Loaded palette" palette-name "with" (count colors) "colors.")
+                (set! (-> palette-pass .-uniforms .-u_palette .-value) (clj->js padded-colors))
+                (set! (-> palette-pass .-uniforms .-u_palette_size .-value) (count colors)))
+              (js/console.error "Failed to load palette:" palette-name)))))
+      (js/console.error "DEBUG: palette-pass not found in state!"))))
 
 (defn cycle-palette []
   (when (pos? (count @palettes))
@@ -401,8 +402,9 @@
                                    (map #(.substring % 2))
                                    (vec)))]
           (when palette-names
-            (reset! palettes palette-names)
-            (load-palette (first palette-names)))
+            (let [all-palettes (vec (cons "default" palette-names))]
+              (reset! palettes all-palettes)
+              (load-palette (first all-palettes))))
           (swap! state assoc :scenery-models scenery-files)
           (if (and model-files (pos? (count model-files)))
             (do
