@@ -8,7 +8,8 @@
 </head>
 <body>
     <div id="spinner" class="spinner" style="display: none;"></div>
-    <h2 id="model-name-display"></h2>
+    <div id="palette-name-display"></div>
+    <div id="model-name-display"></div>
     <script type="importmap">
     {
         "imports": {
@@ -24,9 +25,15 @@
         import * as THREE from "three";
         import { OrbitControls } from "three/addons/controls/OrbitControls.js";
         import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+        import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+        import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+        import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
         window.THREE = THREE;
         window.OrbitControls = OrbitControls;
         window.GLTFLoader = GLTFLoader;
+        window.EffectComposer = EffectComposer;
+        window.RenderPass = RenderPass;
+        window.ShaderPass = ShaderPass;
         scittle.core.eval_script_tags();
     </script>
     <script type="application/x-scittle" src="main.cljs"></script>
