@@ -11,7 +11,7 @@
 (def BASE_FOV 50)
 (def pixel-size 4)
 
-(def palettes ["31" "vinik24" "waldgeist"])
+(defonce palettes (atom []))
 (defonce current-palette-index (atom 0))
 
 (def MAX_PALETTE_SIZE 64)
@@ -97,8 +97,9 @@
       (js/console.error "Failed to load palette:" palette-name))))
 
 (defn cycle-palette []
-  (swap! current-palette-index #(mod (inc %) (count palettes)))
-  (load-palette (nth palettes @current-palette-index)))
+  (when (pos? (count @palettes))
+    (swap! current-palette-index #(mod (inc %) (count @palettes)))
+    (load-palette (nth @palettes @current-palette-index))))
 
 (def DRAG_THRESHOLD 5)
 (defonce mouse-down-pos (atom nil))
@@ -366,13 +367,20 @@
     (js/console.log "DEBUG: State initialized.")
 
     (set-loading true)
-    (load-palette "31")
     (p/let [response (js/fetch "assets/directory.json")
             dir-data (when (.-ok response) (.json response))]
       (if dir-data
         (let [root-contents (-> dir-data first (aget "contents"))
+              palettes-dir (first (filter #(= (aget % "name") "./palettes") root-contents))
               generated-dir (first (filter #(= (aget % "name") "./generated") root-contents))
               scenery-dir (first (filter #(= (aget % "name") "./kenney-nature-kit") root-contents))
+              palette-names (when palettes-dir
+                              (->> (aget palettes-dir "contents")
+                                   (filter #(and (= (aget % "type") "file") (.endsWith (aget % "name") ".hex")))
+                                   (map #(aget % "name"))
+                                   (map #(first (.split (.substring % 11) ".")))
+                                   (sort)
+                                   (vec)))
               model-files (when generated-dir
                             (->> (aget generated-dir "contents")
                                  (filter #(and (= (aget % "type") "file") (.endsWith (aget % "name") ".glb")))
@@ -386,6 +394,9 @@
                                    (map #(aget % "name"))
                                    (map #(.substring % 2))
                                    (vec)))]
+          (when palette-names
+            (reset! palettes palette-names)
+            (load-palette (first palette-names)))
           (swap! state assoc :scenery-models scenery-files)
           (if (and model-files (pos? (count model-files)))
             (do
