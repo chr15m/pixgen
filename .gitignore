@@ -5,4 +5,5 @@
 workspace
 node_modules
 models.old
+assets.linked
 .envrc
