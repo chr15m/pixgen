@@ -1,5 +1,18 @@
 {
   "scripts": {
-    "build": "cd assets && tree -P '*.glb' -P '*.hex' --timefmt '%Y-%m-%dT%H:%M:%S' --du -fpDsJ . | jq . > directory.json"
+    "build": "cd assets && tree -P '*.glb' -P '*.hex' --timefmt '%Y-%m-%dT%H:%M:%S' --du -fpDsJ . | jq . > directory.json",
+    "compress": "npx nbb tools/compress.cljs --in models --out assets/generated"
+  },
+  "devDependencies": {
+    "@gltf-transform/core": "^3.10.0",
+    "@gltf-transform/extensions": "^3.10.0",
+    "@gltf-transform/functions": "^3.10.0",
+    "draco3d": "^1.5.7",
+    "glob": "^10.4.1",
+    "meshoptimizer": "^0.20.0",
+    "sharp": "^0.33.4"
+  },
+  "dependencies": {
+    "nbb": "^1.3.204"
   }
 }
