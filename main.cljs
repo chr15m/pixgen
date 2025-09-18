@@ -4,6 +4,7 @@
             ["THREE" :as THREE]
             ["OrbitControls" :as OrbitControls]
             ["GLTFLoader" :as GLTFLoader]
+            ["DRACOLoader" :as DRACOLoader]
             ["EffectComposer" :as EffectComposer]
             ["RenderPass" :as RenderPass]
             ["ShaderPass" :as ShaderPass]))
@@ -353,7 +354,10 @@
                    (.addEventListener "change" handle-controls-change)
                    (.update))
         _ (js/console.log "DEBUG: Controls created.")
-        loader (GLTFLoader.)
+        draco-loader (doto (DRACOLoader.)
+                       (.setDecoderPath "https://www.gstatic.com/draco/v1/decoders/"))
+        loader (doto (GLTFLoader.)
+                 (.setDRACOLoader draco-loader))
         composer (EffectComposer. renderer)
         _ (js/console.log "DEBUG: Composer created.")
         render-pass (RenderPass. scene camera)
