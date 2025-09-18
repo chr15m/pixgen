@@ -58,3 +58,9 @@ main {
     left: 20px;
     cursor: pointer;
 }
+
+@media (min-width: 768px) {
+    #model-name-display, #palette-name-display {
+        font-size: 2em;
+    }
+}
