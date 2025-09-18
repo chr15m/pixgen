@@ -1,7 +1,7 @@
 {
   "scripts": {
     "build": "cd assets && tree -P '*.glb' -P '*.hex' --timefmt '%Y-%m-%dT%H:%M:%S' --du -fpDsJ . | jq . > directory.json",
-    "compress": "npx nbb tools/compress.cljs"
+    "compress": "npx nbb tools/compress.cljs --in models --out assets/generated"
   },
   "devDependencies": {
     "@gltf-transform/core": "^3.10.0",
