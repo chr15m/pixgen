@@ -249,7 +249,9 @@
           dy (- up-y (:y down-pos))
           distance (js/Math.sqrt (+ (* dx dx) (* dy dy)))]
       (when (< distance DRAG_THRESHOLD)
-        (change-model 1)))
+        (if (= "palette-name-display" (.-id (.-target event)))
+          (cycle-palette)
+          (change-model 1))))
     (reset! mouse-down-pos nil)))
 
 (defn on-window-resize []

@@ -46,14 +46,15 @@ main {
     font-family: Arial, sans-serif;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     z-index: 100;
-    pointer-events: none;
     margin: 0;
 }
 
 #model-name-display {
     right: 20px;
+    pointer-events: none;
 }
 
 #palette-name-display {
     left: 20px;
+    cursor: pointer;
 }
